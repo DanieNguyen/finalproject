@@ -58,7 +58,7 @@ my.ui <- fluidPage(
     ),
     
     
-    # Glorianne
+    # Gloriane
     
     tabPanel("Most Common Ingredients",
       sidebarLayout(
