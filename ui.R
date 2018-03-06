@@ -34,7 +34,7 @@ my.ui <- fluidPage(
       
       # Daniel
       
-      tabPanel("Worst Months for Food Disease",
+      tabPanel("Worst Diseases",
          sidebarLayout(
            sidebarPanel(
              textOutput("text"), 
@@ -42,13 +42,19 @@ my.ui <- fluidPage(
                          "Which Year?",
                          value = 2006,
                          min = 1998,
-                         max = 2015, sep = ""),
-             selectInput("month", "Which Month?", choices = c("January", "February", "March", "April", "May", "June", "July", "August",
-                                                     "September", "October", "November", "December"), selected = "January", multiple = FALSE)
+                         max = 2015, sep = "", animate = TRUE),
+             radioButtons("sort", label = "Get Table of",
+                          choices = list('10 Most Recorded Diseases', '10 Least Recorded Diseases', 'All Recorded Diseases')
+             )
            ),
            mainPanel( tabsetPanel(type = "tabs",
-                                  tabPanel("Map"),
-                                  tabPanel("Table", br(), dataTableOutput("table")))
+                                  tabPanel("Worst Disease", tags$h3(textOutput("header")), br(), plotOutput("plot"), br(),  
+                                           verbatimTextOutput("hover"), br(), tags$h4(textOutput("head")),textOutput("message"), br(),
+                                           tags$h4(textOutput("head2")),
+                                           textOutput("message2"), br(),tags$h4(textOutput("head3")), textOutput("message3")),
+                                  tabPanel("Diseases", tags$h3(textOutput("header1")), br(), plotOutput("plot2"), textOutput("note"), 
+                                           br(), dataTableOutput("table")), 
+                                  tabPanel("Analysis & Thoughts", tags$h3(textOutput("head4")), tags$h4(textOutput("head5")), textOutput("message5")))
             )
          )
       ),
