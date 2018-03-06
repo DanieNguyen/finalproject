@@ -16,18 +16,18 @@ my.ui <- fluidPage(
              
       sidebarLayout(
         sidebarPanel(
-          selectizeInput(
-          'id', label="Year", choices=NULL, multiple=F, selected="X2015",
-          options = list(create = TRUE,placeholder = 'Choose the year')
-          ),
-          # Make a list of checkboxes
-          radioButtons("radio", label = h3("Radio buttons"),
-          choices = list("Choice 1" = 1, "Choice 2" = 2)
-          )
+          sliderInput('year', label='Year', min=1998, max=2015,
+                      value=(c(1998,2015)), sep = ""),
+         # Make a list of checkboxes
+         selectInput('type', label='Choose Illnesses or Hospitalization', 
+                     choices = c('Illnesses', 'Hospitalization'))
         ),
-        mainPanel(textOutput("text"))
+        mainPanel(
+          plotOutput('map_plot')
         )
+      )
     ),
+
     
     
     
@@ -40,41 +40,26 @@ my.ui <- fluidPage(
     
     # Daniel
     
-    tabPanel("Seasonal Foods",
-       sidebarLayout(
-         sidebarPanel(
-           selectizeInput(
-             'id', label="Year", choices=NULL, multiple=F, selected="X2015",
-             options = list(create = TRUE,placeholder = 'Choose the year')
-           ),
-           # Make a list of checkboxes
-           radioButtons("radio", label = h3("Radio buttons"),
-                        choices = list("Choice 1" = 1, "Choice 2" = 2)
-           )
-         ),
-         mainPanel(textOutput("text")
-         )
-       )
-    ),
+
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     # Glorianne
     
-    tabPanel("Most Common Ingredients",
-      sidebarLayout(
-         sidebarPanel(
-           selectizeInput(
-             'id', label="Year", choices=NULL, multiple=F, selected="X2015",
-             options = list(create = TRUE,placeholder = 'Choose the year')
-           ),
-           # Make a list of checkboxes
-           radioButtons("radio", label = h3("Radio buttons"),
-                        choices = list("Choice 1" = 1, "Choice 2" = 2)
-           )
-         ),
-         mainPanel(textOutput("text")
-         )
-       )
+    tabPanel("Most Common Ingredients"
+             
     ),
     
     
@@ -88,21 +73,8 @@ my.ui <- fluidPage(
     
     
     
-    tabPanel("Advancement in Disease Treatments",    
-      sidebarLayout(
-        sidebarPanel(
-          selectizeInput(
-            'id', label="Year", choices=NULL, multiple=F, selected="X2015",
-            options = list(create = TRUE,placeholder = 'Choose the year')
-          ),
-          # Make a list of checkboxes
-          radioButtons("radio", label = h3("Radio buttons"),
-                       choices = list("Choice 1" = 1, "Choice 2" = 2)
-          )
-        ),
-        mainPanel(textOutput("text")
-        )
-      )
+    tabPanel("Advancement in Disease Treatments"   
+          
     )
   )
 )
