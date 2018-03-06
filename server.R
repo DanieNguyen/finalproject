@@ -106,10 +106,11 @@ my.server <- function(input, output) {
     p <- ggplot(data = map.data) +
       geom_polygon(aes(x = long, y = lat, group = group, fill = mean)) + 
       scale_fill_continuous(low = 'thistle2', high = 'darkred', guide = 'colorbar') + 
-      labs(title = paste0("Foodborne Diseases over years"), 
+      labs(title = paste0("Foodborne Diseases Over Years"), 
            x = "Longitude",
            y = "Latitude",
            fill = paste0("Number of ", input$type[1])) +
+      theme(text = element_text(size = 16)) +
       coord_quickmap()
     
     return(p)
