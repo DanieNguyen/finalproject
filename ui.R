@@ -10,27 +10,26 @@ my.ui <- fluidPage(
      tabPanel("Introduction"
         
      ),
-               
-      # Emma
-      tabPanel("Trends over Time",
-               
-        sidebarLayout(
-          sidebarPanel(
-            selectizeInput(
-            'id', label="Year", choices=NULL, multiple=F, selected="X2015",
-            options = list(create = TRUE,placeholder = 'Choose the year')
-            ),
-            # Make a list of checkboxes
-            radioButtons("radio", label = h3("Radio buttons"),
-            choices = list("Choice 1" = 1, "Choice 2" = 2)
-            )
-          ),
-          mainPanel()
+             
+    # Emma
+    tabPanel("Trends over Time",
+             
+      sidebarLayout(
+        sidebarPanel(
+          sliderInput('year', label='Year', min=1998, max=2015,
+                      value=(c(1998,2015)), sep = ""),
+         # Make a list of checkboxes
+         selectInput('type', label='Choose Illnesses or Hospitalization', 
+                     choices = c('Illnesses', 'Hospitalization'))
+        ),
+        mainPanel(
+          plotOutput('map_plot')
         )
-      ),
-      
+      )
+    ),
 
-      
+    
+  
       
       # Daniel
       
