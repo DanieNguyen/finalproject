@@ -1,6 +1,6 @@
 #install.packages("shiny")
 library(shiny)
-
+source("server.R")
 my.ui <- fluidPage( 
   
   navbarPage("Foodborne Disease Outbreaks in the USA",
@@ -63,16 +63,14 @@ my.ui <- fluidPage(
     tabPanel("Most Common Ingredients",
       sidebarLayout(
          sidebarPanel(
-           selectizeInput(
-             'id', label="Year", choices=NULL, multiple=F, selected="X2015",
-             options = list(create = TRUE,placeholder = 'Choose the year')
-           ),
-           # Make a list of checkboxes
-           radioButtons("radio", label = h3("Radio buttons"),
-                        choices = list("Choice 1" = 1, "Choice 2" = 2)
+           sliderInput(
+             'year', label="Year", value = 2015, min = 1998, max = 2015
            )
          ),
-         mainPanel(textOutput("text")
+         mainPanel(
+           textInput('text', label = "Write"),
+           plotOutput("food"),
+           plotOutput("location")
          )
        )
     ),
@@ -106,5 +104,7 @@ my.ui <- fluidPage(
     )
   )
 )
+
+
 
 shinyUI(my.ui)
