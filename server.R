@@ -13,6 +13,7 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(stringr)
+library(maps)
 
 #Set working directory to source location and read in data file
 
@@ -174,7 +175,8 @@ my.server <- function(input, output) {
   
   
   
-  
+  View(group_by(my.data, Year) %>%
+         mutate(sum = sum(Illnesses)))
   
   # Emma
   my.data$State <- tolower(my.data$State)
@@ -190,31 +192,58 @@ my.server <- function(input, output) {
     spread(key=Year, value=num)
   
   typeInput <- reactive({
-    switch(input$type,
-           "Illnesses" = illnesses, "Hospitalization" = hospitalization)
+    switch(input$emma.type,
+           "Illnesses" = illnesses, "Hospitalizations" = hospitalization)
   })
   
   state <- map_data("state")
   
-  output$map_plot <- renderPlot({
+  output$map <- renderPlot({
     map.data <- typeInput() %>%
       left_join(state, by = c("State" = "region"))
     
     data.year <- map.data %>%
-      select(num_range('', input$year[1]:input$year[2]))
+      select(num_range('', input$emma.year[1]:input$emma.year[2]))
     
     map.data <- mutate(map.data, mean = rowMeans(data.year, na.rm = TRUE))
     
     p <- ggplot(data = map.data) +
       geom_polygon(aes(x = long, y = lat, group = group, fill = mean)) + 
       scale_fill_continuous(low = 'thistle2', high = 'darkred', guide = 'colorbar') + 
-      labs(title = paste0("Foodborne Diseases Over Years"), 
+      labs(title = paste0("Foodborne Diseases From ", input$emma.year[1], " to ", input$emma.year[2]), 
            x = "Longitude",
            y = "Latitude",
-           fill = paste0("Number of ", input$type[1])) +
+           fill = paste0("Number of ", input$emma.type[1])) +
       theme(text = element_text(size = 16)) +
       coord_quickmap()
     
+    return(p)
+  })
+  
+  
+  ill.trend <- my.data %>%
+    group_by(Year) %>%
+    summarize('num' = sum(Illnesses, na.rm = TRUE))
+  
+  hosp.trend <- my.data %>%
+    group_by(Year) %>%
+    summarize('num' = sum(Hospitalizations, na.rm = TRUE))
+  
+  trendInput <- reactive({
+    switch(input$emma.type,
+           "Illnesses" = ill.trend, "Hospitalizations" = hosp.trend)
+  })
+  
+  output$trend <- renderPlot({
+    data.year <- trendInput() %>%
+      filter(Year == c(input$emma.year[1]:input$emma.year[2]))
+    
+    p <- ggplot(data = data.year) + 
+      geom_bar(stat = "identity", aes(x = Year, y = num), fill = 'darkgrey') + 
+      labs(title = paste0(input$emma.type[1], " From ", input$emma.year[1], " to ", input$emma.year[2]), 
+           x = "Year",
+           y = paste0("Number of ", input$emma.type[1])) + 
+      theme(text = element_text(size = 16))
     return(p)
   })
   
@@ -387,6 +416,5 @@ my.server <- function(input, output) {
 }
 
 # Connects server to app
-
 
 shinyServer(my.server)
