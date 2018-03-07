@@ -1,6 +1,6 @@
 #install.packages("shiny")
 library(shiny)
-
+source("server.R")
 my.ui <- fluidPage( 
   
   navbarPage("Foodborne Disease Outbreaks in the USA",
@@ -31,6 +31,7 @@ my.ui <- fluidPage(
         
      ),
              
+   
     # Emma
     tabPanel("Trends over Time",
              
@@ -91,23 +92,27 @@ my.ui <- fluidPage(
       ),
       
       
-      # Glorianne
-      
-      tabPanel("Most Common Foods",
-        sidebarLayout(
-           sidebarPanel(
-             selectizeInput(
-               'id', label="Year", choices=NULL, multiple=F, selected="X2015",
-               options = list(create = TRUE,placeholder = 'Choose the year')
-             ),
-             # Make a list of checkboxes
-             radioButtons("radio", label = h3("Radio buttons"),
-                          choices = list("Choice 1" = 1, "Choice 2" = 2)
-             )
+      # Gloriane
+    
+    tabPanel("Most Common Ingredients",
+      sidebarLayout(
+         sidebarPanel(
+           sliderInput(
+             'yearinput', label="Year", value = 2015, min = 1998, max = 2015
            ),
-           mainPanel()
+           
+           radioButtons("radio", label = "Get Table of # of Recorded Contamination in:",
+                        choices = c("Food", "Location")
+           ),
+          textOutput("analysis", container = div, inline = FALSE),
+          textOutput("analysis2", container = div, inline = FALSE)
+         ),
+         mainPanel(
+           plotOutput("food.plot"),
+           tableOutput("food.table")
          )
-      ),
+       )
+    ),
       
       
       
@@ -133,6 +138,7 @@ my.ui <- fluidPage(
         )
       )
   
+
   )
 )
 
