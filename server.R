@@ -8,6 +8,7 @@ library(dplyr)
 library(maps)
 library(ggplot2)
 library(tidyr)
+library(stringr)
 
 #Set working directory to source location and read in data file
 
@@ -17,25 +18,36 @@ my.data <- read.csv('outbreaks.csv', stringsAsFactors=FALSE)
 
 my.server <- function(input, output) {
   # Gloriane
-  filter <- reactive({# Most mentioned Ingredients #Most mentioned species/Illness # Is it differnt each year?
-    data.set <- my.data %>%
+  
+  filter.food <- reactive({# Most mentioned Ingredients #Most mentioned species/Illness # Is it differnt each year?
+    data.set <- my.data["state" != "Multistate"]
+    data.set <- na.omit(data.set)
+    data.set <- data.set %>%
+      select(Year, Ingredient, Food, Species, State) %>%
+      filter(Year == 1998) # CHANGE "YEAR" 
     
-    # Distinct specific ingridients
-    # Splices ingridient seperately and then take the n count of each ingridients
-    list.of.ingredients <- distinct(my.data, Ingredient)
-    list.of.species <- distinct(my.data, Species)
+    # Distinct specific ingridients in that YEAR
+    list.of.ingredients <- distinct(data.set, Ingredient)
+    list.of.species <- distinct(data.set, Species)
     
-    split.igre.list <- data.frame("Ingredient" = unlist(strsplit(list.of.ingredients[1:nrow(list.of.ingredients), ], ";")), stringsAsFactors = FALSE)
-    split.igre.list <- split.list %>%
-      count(Ingredient, sort = TRUE)
+    # Cleaning up names preparing for manipulation
+    food.list <- data.frame("Food" = unlist(strsplit(data.set$Food, ";")), stringsAsFactors = FALSE)
+    food.list <- data.frame("Food" = unlist(strsplit(food.list$Food, ",")), stringsAsFactors = FALSE)
+    food.list <- as.data.frame(lapply(food.list, trimws), stringsAsFactors = FALSE)
     
-    split.spec.list <- data.frame("Species") = unlist(strsplit(list.of.species[1:nrow(list.of.species), ], ";"))
-    
-    ingredients.data <- my.data %>%
-      select(Ingredient) %>%
-      group_by(Ingredient) %>%
-      summarize("Count" = Ingrin_distinct(Ingredient))
+    food.list <- food.list %>%
+      count(Food, sort = TRUE) %>%
+      filter(Food != "Unspecified" & Food != "Other") %>%
+      group_by(Food) %>%
+      arrange(desc(n))
+    return(food.list)
   })
+  
+  filter.location <- reactive({
+
+  })
+  
+  
   
   
   
