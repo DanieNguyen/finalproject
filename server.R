@@ -21,6 +21,7 @@ my.data <- read.csv('outbreaks.csv', stringsAsFactors=FALSE, na.strings = c("", 
 
 # Create a server for app
 
+#Gloriane
 my.server <- function(input, output) {
   data.set <- my.data["state" != "Multistate"]
   data.set <- na.omit(data.set) %>%
@@ -112,8 +113,22 @@ my.server <- function(input, output) {
   }
 })
 
+  output$glo.head1 <- renderText({
+    return("What food has the most risk of being contaminated in what location?")
+  })
   
+  output$glo.analysis <- renderText({
+    return("Chicken is the trending top food and ingredient that has been recorded for contaminiation (Other than fish in 2003).
+            Food contamination has been most commonly occuring when prepared at restaurants. Since 1998,
+            the number of occurences at restaurants has greatly decreased,
+            showing that food hygeine and safety are improving thanks to some implemntation of laws and regulations 
+            thanks to the, Food Safety and Inspection Service by the  United States Department of Agriculture. However the cause of food poisoning continues 
+           to consistently rise with Chicken.")
+  })
   
+  output$glo.anaylsis2 <- renderText({ 
+    return("Click here for more reference about Food Safty and Inspection Service")
+  })
   
   
   
