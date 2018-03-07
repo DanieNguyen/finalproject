@@ -137,14 +137,14 @@ my.ui <- fluidPage(
           sidebarPanel(
             tabsetPanel(type = "tabs",
               tabPanel("Filter",
-                sliderInput('yearinput', label="Year", value = 2015, min = 1998, max = 2015),
+                sliderInput('yearinput', label="Year", value = 2015, min = 1998, max = 2015, sep = ""),
                         
                 radioButtons("radio", label = "Get Table of # of Recorded Contamination in:",
                                      choices = c("Food", "Location")),
                 tags$li(textOutput("analysis", container = div, inline = FALSE)),
                 tags$li(textOutput("analysis2", container = div, inline = FALSE))),
               tabPanel("Analysis & Thoughts", tags$b(h3(textOutput("glo.head1"))), tags$body(textOutput("glo.analysis")),
-                      tags$a(href= "https://www.fsis.usda.gov/wps/portal/fsis/home", "Click here for more reference about Food Safty and Inspection Service")))
+                      tags$a(href= "https://www.fsis.usda.gov/wps/portal/fsis/home", "Click here for more reference about Food Safety and Inspection Service")))
            
          ),
          mainPanel(

@@ -72,14 +72,14 @@ my.server <- function(input, output) {
   
       p <- ggplot(data = table.list) +
          geom_bar(mapping = aes(x = Food, y = n, fill = Food), stat = "identity") +
-        labs(title= (paste("Top contaminated food in", input$year)), y = "Recorded Occurences") +
+        labs(title= (paste("Top Contaminated Food In", input$yearinput)), y = "Recorded Occurences") +
         guides(fill = FALSE)
    } else {
       
       p <- ggplot(data = table.list) +
         geom_bar(mapping = aes(x = Location, y = n, fill = Location), stat = "identity") +
         coord_flip() +
-        labs(title = paste("Number of Recorded Location with Contamination in", input$year), y = "Recorded Occurences") +
+        labs(title = paste("Number of Recorded Location with Contamination In", input$yearinput), y = "Recorded Occurences") +
         guides(fill = FALSE)
     }
     return(p)
@@ -104,11 +104,11 @@ my.server <- function(input, output) {
   output$analysis2 <- renderText({
     table <- getDataTable()
   if (input$radio == "Food") {
-  text <-paste("In", input$year[1], ",", table$Food[table$n == max(table$n)], "was recorded most commonly with a number of",
-               table$n[table$n == max(table$n)], "records")
+  text <-paste0("In ", input$yearinput[1], ", ", table$Food[table$n == max(table$n)], " was recorded most commonly with a number of ",
+               table$n[table$n == max(table$n)], " records")
   } else {
-    text <-paste("In", input$year[1], ", The", table$Location[table$n == max(table$n)], "was recorded most commonly with a number of",
-                 table$n[table$n == max(table$n)], "records")
+    text <-paste0("In ", input$yearinput[1], ", the ", table$Location[table$n == max(table$n)], " was recorded most commonly with a number of ",
+                 table$n[table$n == max(table$n)], " records")
   
   }
 })
@@ -118,16 +118,16 @@ my.server <- function(input, output) {
   })
   
   output$glo.analysis <- renderText({
-    return("Chicken is the trending top food and ingredient that has been recorded for contaminiation (Other than fish in 2003).
-            Food contamination has been most commonly occuring when prepared at restaurants. Since 1998,
-            the number of occurences at restaurants has greatly decreased,
-            showing that food hygeine and safety are improving thanks to some implemntation of laws and regulations 
-            thanks to the, Food Safety and Inspection Service by the  United States Department of Agriculture. However the cause of food poisoning continues 
-           to consistently rise with Chicken.")
+    return("Chicken is the trending top food and ingredient that has been recorded for contamination (Other than fish in 2003).
+            Food contamination has been most commonly occurring when prepared at restaurants. Since 1998,
+            the number of occurrences at restaurants has greatly decreased,
+            showing that food hygiene and safety are improving thanks to stricter implementation of laws and regulations.
+            We can thank the Food Safety and Inspection Service by the United States Department of Agriculture for the improvement in 
+food diseases outbreaks. However, Chicken has been consitently rising as a cause of foodborne diseases and must be monitored.")
   })
   
   output$glo.anaylsis2 <- renderText({ 
-    return("Click here for more reference about Food Safty and Inspection Service")
+    return("Click here for more reference about Food Safety and Inspection Service")
   })
   
   
@@ -243,6 +243,7 @@ my.server <- function(input, output) {
       labs(title = paste0(input$emma.type[1], " From ", input$emma.year[1], " to ", input$emma.year[2]), 
            x = "Year",
            y = paste0("Number of ", input$emma.type[1])) + 
+      theme_minimal() +
       theme(text = element_text(size = 16))
     return(p)
   })
