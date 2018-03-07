@@ -7,7 +7,27 @@ my.ui <- fluidPage(
              
     # Introduction    
      
-     tabPanel("Introduction"
+     tabPanel("Introduction", h1("Looking at Foodborne Diseases Over Time"), 
+              h4("Our group created this shiny application to analyze data about 
+                foodborne diseases in the United States. We decided to analyze 
+                this data set because we thought it was an interesting topic to 
+                look at and that it was something all of us hadn't really paid 
+                attention to before. The information in this application can be 
+                used for greater good in society. Hospitals, doctors, and others 
+                in the medical field may be able to use this information to better prevent foodborne diseases. "), br(),
+              tags$b(h4("The main questions that we wanted to look at were:")), 
+              tags$em(h4("1. Are there any trends over time of illnesses and hospitalizations based by State?")), 
+              tags$em(h4("2. What are the most common foodborne diseases and are there any trends over time in types of diseases?")),
+              tags$em(h4("3 .What are the common foods that cause foodborne diseases?")),
+              tags$em(h4("4. How has the average number of hospitalizations from foodborne diseases changed over the years?")),
+              br(),
+              h4("	We felt that these questions would help identify common symptoms, triggers, and 
+                     diseases that people in the medical field can pay attention to and hopefully prevent. "),
+              br(), h4("	Here is the link to our dataset: "), 
+              tags$a(href="https://www.kaggle.com/cdc/foodborne-diseases/data", 
+                                                               "Food Borne Disease Outbreak Illness in USA - 1998-2005"), 
+              br(), h4("Click through the navigation bar to see our information!")
+              
         
      ),
              
@@ -37,7 +57,7 @@ my.ui <- fluidPage(
          sidebarLayout(
            sidebarPanel(
              textOutput("text"), 
-             sliderInput("year",
+             sliderInput("daniel.year",
                          "Which Year?",
                          value = 2006,
                          min = 1998,
@@ -47,8 +67,7 @@ my.ui <- fluidPage(
              )
            ),
            mainPanel( tabsetPanel(type = "tabs",
-                                  tabPanel("Worst Disease", tags$h3(textOutput("header")), br(), plotOutput("plot"), br(),  
-                                           verbatimTextOutput("hover"), br(), tags$h4(textOutput("head")),textOutput("message"), br(),
+                                  tabPanel("Worst Disease", tags$h3(textOutput("header")), br(), plotOutput("plot"), br(), tags$h4(textOutput("head")),textOutput("message"), br(),
                                            tags$h4(textOutput("head2")),
                                            textOutput("message2"), br(),tags$h4(textOutput("head3")), textOutput("message3")),
                                   tabPanel("Diseases", tags$h3(textOutput("header1")), br(), plotOutput("plot2"), textOutput("note"), 
@@ -61,7 +80,7 @@ my.ui <- fluidPage(
       
       # Glorianne
       
-      tabPanel("Most Common Ingredients",
+      tabPanel("Most Common Foods",
         sidebarLayout(
            sidebarPanel(
              selectizeInput(

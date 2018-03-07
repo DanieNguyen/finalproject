@@ -151,7 +151,7 @@ my.server <- function(input, output) {
   }
   
   filtered <- reactive({
-    sum.month <-  filter(my.data, Year == input$year) %>%
+    sum.month <-  filter(my.data, Year == input$daniel.year) %>%
                   group_by(Species) %>%
                   mutate(Count = sum(Illnesses)) %>%
                   arrange(-Count) %>%
@@ -165,7 +165,7 @@ my.server <- function(input, output) {
   })
   
   table <- reactive({
-    ten <-  filter(my.data, Year == input$year) %>%
+    ten <-  filter(my.data, Year == input$daniel.year) %>%
                   group_by(Species) %>%
                   mutate(Count = sum(Illnesses)) %>%
                   arrange(-Count) %>%
@@ -181,7 +181,7 @@ my.server <- function(input, output) {
               geom_text(aes(label = Sum), vjust=-0.3, size = 5) +
               xlab("Month") +
               ylab("Count of Recorded Illness") +
-              ggtitle(paste(" Worst Disease in", input$year, "-", filtered()$Species[1])) + 
+              ggtitle(paste(" Worst Disease in", input$daniel.year, "-", filtered()$Species[1])) + 
               theme_minimal() + 
               guides(fill=FALSE) +
               theme(text = element_text(size = 16), axis.text.x = element_text(size=12))
@@ -199,7 +199,7 @@ my.server <- function(input, output) {
     graph <- ggplot(data = table, aes(Species, Count)) +
               geom_bar(stat = "identity", aes(fill = Month), position = "stack") + 
               scale_fill_brewer(palette = "Paired", na.value = "Black") +
-              ggtitle(paste(input$sort, "in", input$year)) + 
+              ggtitle(paste(input$sort, "in", input$daniel.year)) + 
               theme_minimal() + 
               guides(fill=FALSE) +
               xlab(NULL) + ylab(NULL) +
@@ -209,8 +209,8 @@ my.server <- function(input, output) {
   })
   
   output$message <- renderText({
-    return(paste0("This bar graph is organized by year. Right now, the graph displays information from ", input$year, ". 
-            The graph shows the disease that had the most recorded illnesses in ", input$year, ". The bar graph is organized 
+    return(paste0("This bar graph is organized by year. Right now, the graph displays information from ", input$daniel.year, ". 
+            The graph shows the disease that had the most recorded illnesses in ", input$daniel.year, ". The bar graph is organized 
             by month for users to see any relationships between the time of year and the illness' frequency."))
   })
   
@@ -231,7 +231,9 @@ my.server <- function(input, output) {
   })
   
   output$note <- renderText({
-    return("Note: This chart is to help viewers visualize the differences and similarities of foodborne diseases over the years. However, it is limited to the 10 Most Recorded Diseases and the 10 Least Recorded Diseases. The table below can show ALL recorded diseases.")
+    return("Note: This chart is to help viewers visualize the differences and similarities of foodborne diseases over 
+           the years. However, it is limited to the 10 Most Recorded Diseases and the 10 Least Recorded Diseases. 
+           The table below can show ALL recorded diseases.")
   })
   
   output$header <- renderText({
