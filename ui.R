@@ -72,7 +72,20 @@ my.ui <- fluidPage(
                                            textOutput("message2"), br(),tags$h4(textOutput("head3")), textOutput("message3")),
                                   tabPanel("Diseases", tags$h3(textOutput("header1")), br(), plotOutput("plot2"), textOutput("note"), 
                                            br(), dataTableOutput("table")), 
-                                  tabPanel("Analysis & Thoughts", tags$h3(textOutput("head4")), tags$h4(textOutput("head5")), textOutput("message5")))
+                                  tabPanel("Analysis & Thoughts", tags$h3(textOutput("head4")), tags$h4(textOutput("head5")), textOutput("message5"), 
+                                          br(), p("Looking at the worst disease bar graph, there is a clear trend over the years. 
+                                            The worst diseases from 1998 - 2015 are only three different diseases: 
+                                            Salmonella enterica, Norovirus genogroup 1, and Norovirus genogroup 2. 
+                                            There was a large span of Norovirus genogroup 1 being the worst disease from 1999 until 2007. 
+                                            The most recent years seem to alternate between Salmonella enterica and Norovirus genogroup 2.
+                                                  There seems to be no correlation between months and the foodborne diseases since the count of the diseases for each 
+                                                  month seem to vary for each year."),
+                                          br(), p("For the 10 worst diseases, there were clear leaders. The top three unsurprisingly were the three diseases from
+                                                  the worst disease tab. At least one of the three were almost double the rest of the diseases for most of the years.
+                                                  An interesting trend was the rise of Norovirus genogroup 2, it wasn't prominent in the first decade but started growing rapidly.
+                                                  One positive trend was that the record of illnesses were going down overall, from having a max of 7000 records on the scale to a max of 3000.
+                                                  This shows that foodborne diseases are becoming less of a problem due to advances in the medical field. However, we definitely need
+                                                  to focus on Salmonella and Norovirus for the future.")))
             )
          )
       ),

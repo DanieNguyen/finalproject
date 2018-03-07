@@ -5,7 +5,9 @@
 # install.packages("maptools")
 # install.packages('rsconnect')
 # install.packages('tidyr')
+# install.packages('scales')
 
+library(scales)
 library(shiny)
 library(dplyr)
 library(ggplot2)
@@ -202,8 +204,9 @@ my.server <- function(input, output) {
               ggtitle(paste(input$sort, "in", input$daniel.year)) + 
               theme_minimal() + 
               guides(fill=FALSE) +
+              scale_x_discrete(labels = abbreviate) +
               xlab(NULL) + ylab(NULL) +
-              theme(text = element_text(size = 16)) +
+              theme(text = element_text(size = 16), axis.text.x = element_text(size=12)) +
               coord_flip()
     return(graph)
   })
@@ -233,7 +236,9 @@ my.server <- function(input, output) {
   output$note <- renderText({
     return("Note: This chart is to help viewers visualize the differences and similarities of foodborne diseases over 
            the years. However, it is limited to the 10 Most Recorded Diseases and the 10 Least Recorded Diseases. 
-           The table below can show ALL recorded diseases.")
+           The table below can show ALL recorded diseases. The labels are abbreviated because some are very long. From the dataset, there were some records of multiple
+            diseases (for multiple states, cases) and that has affected this visualization. The bar graph corresponds with the information from the table though,
+           so viewers should be able to connect the abbreviations to the diseases.")
   })
   
   output$header <- renderText({
