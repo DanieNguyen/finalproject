@@ -71,11 +71,17 @@ my.ui <- fluidPage(
          sidebarPanel(
            sliderInput(
              'yearinput', label="Year", value = 2015, min = 1998, max = 2015
-           )
+           ),
+           
+           radioButtons("radio", label = "Get Table of # of Recorded Contamination in:",
+                        choices = c("Food", "Location")
+           ),
+          textOutput("analysis", container = div, inline = FALSE),
+          textOutput("analysis2", container = div, inline = FALSE)
          ),
          mainPanel(
-           plotOutput("food"),
-           plotOutput("location")
+           plotOutput("food.plot"),
+           tableOutput("food.table")
          )
        )
     ),
