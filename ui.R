@@ -94,11 +94,11 @@ my.ui <- fluidPage(
       
       # Gloriane
     
-    tabPanel("Most Common Ingredients",
+    tabPanel("Most Common Foods & Locations",
       sidebarLayout(
          sidebarPanel(
            sliderInput(
-             'yearinput', label="Year", value = 2015, min = 1998, max = 2015
+             'yearinput', label="Year", value = 2015, min = 1998, max = 2015, sep = ""
            ),
            
            radioButtons("radio", label = "Get Table of # of Recorded Contamination in:",

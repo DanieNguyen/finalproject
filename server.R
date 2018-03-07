@@ -372,6 +372,5 @@ my.server <- function(input, output) {
 }
 
 # Connects server to app
-}
 
 shinyServer(my.server)
