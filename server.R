@@ -88,9 +88,9 @@ my.server <- function(input, output) {
   output$analysis <- renderText({
     table <- getDataTable()
     if (input$radio == "Food") {
-      text <-paste("Displayed are the top 10 types of differnt foods that were recorded for food contamination from 1998 to 2015.")
+      text <-paste("Displayed are the top 10 types of different foods that were recorded for food contamination from 1998 to 2015.")
     } else {
-     
+      text <-paste("Displayed are all the recorded locations that were reported due to food contamination from 1998 to 2015.")
     }
   })
   
@@ -98,9 +98,11 @@ my.server <- function(input, output) {
   output$analysis2 <- renderText({
     table <- getDataTable()
   if (input$radio == "Food") {
-  text <-paste("In", input$year, ",", table$Food[table$n == max(table$n)], "was recorded most commonly with a number of",
+  text <-paste("In", input$year[1], ",", table$Food[table$n == max(table$n)], "was recorded most commonly with a number of",
                table$n[table$n == max(table$n)], "records")
   } else {
+    text <-paste("In", input$year[1], ", The", table$Location[table$n == max(table$n)], "was recorded most commonly with a number of",
+                 table$n[table$n == max(table$n)], "records")
   
   }
 })
