@@ -24,7 +24,7 @@ my.data <- read.csv('outbreaks.csv', stringsAsFactors=FALSE, na.strings = c("", 
 #Gloriane
 my.server <- function(input, output) {
   data.set <- my.data["state" != "Multistate"]
-  data.set <- na.omit(data.set) %>%
+  data.set <- data.set %>%
     filter(Food != "" & Location != "")
     
   getYear <- reactive({
