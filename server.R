@@ -13,6 +13,7 @@ library(dplyr)
 library(ggplot2)
 library(tidyr)
 library(stringr)
+library(maps)
 
 #Set working directory to source location and read in data file
 
@@ -159,7 +160,8 @@ my.server <- function(input, output) {
   
   
   
-  
+  View(group_by(my.data, Year) %>%
+         mutate(sum = sum(Illnesses)))
   
   # Emma
   my.data$State <- tolower(my.data$State)
@@ -176,7 +178,7 @@ my.server <- function(input, output) {
   
   typeInput <- reactive({
     switch(input$emma.type,
-           "Illnesses" = illnesses, "Hospitalization" = hospitalization)
+           "Illnesses" = illnesses, "Hospitalizations" = hospitalization)
   })
   
   state <- map_data("state")
@@ -193,7 +195,7 @@ my.server <- function(input, output) {
     p <- ggplot(data = map.data) +
       geom_polygon(aes(x = long, y = lat, group = group, fill = mean)) + 
       scale_fill_continuous(low = 'thistle2', high = 'darkred', guide = 'colorbar') + 
-      labs(title = paste0("Foodborne Diseases over years"), 
+      labs(title = paste0("Foodborne Diseases From ", input$emma.year[1], " to ", input$emma.year[2]), 
            x = "Longitude",
            y = "Latitude",
            fill = paste0("Number of ", input$emma.type[1])) +
@@ -214,7 +216,7 @@ my.server <- function(input, output) {
   
   trendInput <- reactive({
     switch(input$emma.type,
-           "Illnesses" = ill.trend, "Hospitalization" = hosp.trend)
+           "Illnesses" = ill.trend, "Hospitalizations" = hosp.trend)
   })
   
   output$trend <- renderPlot({
@@ -223,8 +225,9 @@ my.server <- function(input, output) {
     
     p <- ggplot(data = data.year) + 
       geom_bar(stat = "identity", aes(x = Year, y = num), fill = 'darkgrey') + 
-      labs(title = paste0(input$emma.type[1], " people over years"), x = "Year", 
-           y = paste0("number of ", input$emma.type[1])) + 
+      labs(title = paste0(input$emma.type[1], " From ", input$emma.year[1], " to ", input$emma.year[2]), 
+           x = "Year",
+           y = paste0("Number of ", input$emma.type[1])) + 
       theme(text = element_text(size = 16))
     return(p)
   })

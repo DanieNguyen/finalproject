@@ -40,33 +40,45 @@ my.ui <- fluidPage(
         sliderInput('emma.year', label='Year', min=1998, max=2015,
                      value=(c(1998,2015)), sep = ""),
          # Make a list of checkboxes
-        selectInput('emma.type', label='Choose Illnesses or Hospitalization', 
-                    choices = c('Illnesses', 'Hospitalization'))
+        selectInput('emma.type', label='Choose Illnesses or Hospitalizations', 
+                    choices = c('Illnesses', 'Hospitalizations'))
       ),
       mainPanel(
         tabsetPanel(type = "tabs",
           tabPanel("Map",
             plotOutput('map'),
-            p("Mean number of Illness and hospitalized people for each states
-              is showed on the map, drag years to choose the year range. The ",
-              strong("darker "), "the color of the state means the ", 
-              strong("higher "), "the level of illnesses and hospitalization
-                       for the states, and the ", strong("lighter "), "the color of 
-                       the states is, the ", strong("lower "), "level of Illnesses and
-                       hospitalization is for the states.")
+            h4("How to Read This Map"),
+              p("This map shows the average number of illnesses and hospitalizations from foodborne diseases for each 
+              state. You can interact with the map by dragging the slider on the right to choose the year range. The map is coded
+              by color. The ",
+              strong("darker "), "the state means the state has a ", 
+              strong("high "), "average number of illnesses and hospitalizations
+                       , and the ", strong("lighter "), "the color of 
+                       the state, the ", strong("lower "), "number of Illnesses and
+                       hospitalization is for the state."),
+            h4("Analysis"),
+            p("Looking at the map, it is clear that California and Florida consistently had a large number of foodborne illnesses.
+              We were thinking that its because of the hot weather is easier for bacteria to survive in and because of the
+              large populations in both states. Illinois is also a state with a consistently large number of foodborne illnesses over the years. 
+              We were surprised by this as it didn't seem likely; however, Illinois has the 5th largest state population in the US, so it follows
+              our trend.")
           ),
           tabPanel("Trend",
             plotOutput('trend'),
-            p("Trend of Illnesses in USA has ", strong("decreased"), " over 
-               years in general, probably because of the government awareness 
-               that have more control on food. Number of hopitalized people 
-               remains at a ", strong("constant"), "level although the level 
-               of illnesses decreased, which implies that more illed people 
-               are hospitalized due to increasing level of income that 
+            h4("How to Read This Graph"),
+            p("This graph shows the total number of illnesses and hospitalizations from foodborne diseases over the years. 
+              You can interact with the map by dragging the slider on the right to choose the year range."),
+            h4("Analysis"),
+            p("The trend of illnesses in USA has ", strong("decreased"), " over 
+               the years. We think it is probably because of the government awareness 
+               of these illnesses and stricter regulations for food preparation.
+               However, the number of hopitalized people 
+               remains at a ", strong("constant"), "level. We believe that this implies that people 
+               are hospitalized due to increasing levels of income that 
                support people to spend more on health, and the increasing 
-               level of life expectancy reflect on people focus more on 
-               health, and more people are afford to go
-               to hospital while whey got foodborne disease.")
+               level of life expectancy reflects how people focus more on 
+               health. More people can afford to go
+               to the hospital when they get foodborne diseases due to health insurance plans.")
           )
         )
       )
