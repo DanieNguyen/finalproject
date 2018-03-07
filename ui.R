@@ -33,21 +33,46 @@ my.ui <- fluidPage(
              
    
     # Emma
-    tabPanel("Trends over Time",
+  tabPanel("Trends over Time",
              
-      sidebarLayout(
-        sidebarPanel(
-          sliderInput('year', label='Year', min=1998, max=2015,
-                      value=(c(1998,2015)), sep = ""),
+    sidebarLayout(
+      sidebarPanel(
+        sliderInput('emma.year', label='Year', min=1998, max=2015,
+                     value=(c(1998,2015)), sep = ""),
          # Make a list of checkboxes
-         selectInput('type', label='Choose Illnesses or Hospitalization', 
-                     choices = c('Illnesses', 'Hospitalization'))
-        ),
-        mainPanel(
-          plotOutput('map_plot')
+        selectInput('emma.type', label='Choose Illnesses or Hospitalization', 
+                    choices = c('Illnesses', 'Hospitalization'))
+      ),
+      mainPanel(
+        tabsetPanel(type = "tabs",
+          tabPanel("Map",
+            plotOutput('map'),
+            p("Mean number of Illness and hospitalized people for each states
+              is showed on the map, drag years to choose the year range. The ",
+              strong("darker "), "the color of the state means the ", 
+              strong("higher "), "the level of illnesses and hospitalization
+                       for the states, and the ", strong("lighter "), "the color of 
+                       the states is, the ", strong("lower "), "level of Illnesses and
+                       hospitalization is for the states.")
+          ),
+          tabPanel("Trend",
+            plotOutput('trend'),
+            p("Trend of Illnesses in USA has ", strong("decreased"), " over 
+               years in general, probably because of the government awareness 
+               that have more control on food. Number of hopitalized people 
+               remains at a ", strong("constant"), "level although the level 
+               of illnesses decreased, which implies that more illed people 
+               are hospitalized due to increasing level of income that 
+               support people to spend more on health, and the increasing 
+               level of life expectancy reflect on people focus more on 
+               health, and more people are afford to go
+               to hospital while whey got foodborne disease.")
+          )
         )
       )
-    ),
+    )
+  ),
+    
 
     
   
