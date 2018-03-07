@@ -16,6 +16,7 @@ my.data <- read.csv('outbreaks.csv', stringsAsFactors=FALSE)
 
 # Create a server for app
 
+#Gloriane
 my.server <- function(input, output) {
   data.set <- my.data["state" != "Multistate"]
   data.set <- na.omit(data.set) %>%
