@@ -8,4 +8,4 @@ Our team analyzed this dataset from Kaggle regarding foodborne diseases from 199
 
 ### Instructions
 
-Our code is split into two files: ui.R and server.R. We had a team of four members and each member had their own section which was commented as '#memberName'.
+Our code is split into two files: ui.R and server.R. We had a team of four members and each member had their own section which was commented as '#memberName'. The dataset is in this repository as outbreaks.csv. 
