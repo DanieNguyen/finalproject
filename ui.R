@@ -8,13 +8,18 @@ my.ui <- fluidPage(
     # Introduction    
      
      tabPanel("Introduction", h1("Looking at Foodborne Diseases Over Time"), 
-              h4("Our group created this shiny application to analyze data about 
-                foodborne diseases in the United States. We decided to analyze 
-                this data set because we thought it was an interesting topic to 
-                look at and that it was something all of us hadn't really paid 
-                attention to before. The information in this application can be 
-                used for greater good in society. Hospitals, doctors, and others 
-                in the medical field may be able to use this information to better prevent foodborne diseases. "), br(),
+              h4("Foodborne illness is a serious and underreported public 
+                  health problem with high health and financial costs.” 
+                  The original data that we got summarized data of foodborne 
+                  disease from 1998 to 2015 for each states, and the data 
+                  shows the location, type of food, species and genotype 
+                  that causes foodborne disease. Our group analysis to clearly 
+                  show the trend over years over states, and the percentage of 
+                  the food, location that cause most of the disease. We wish 
+                  the information can be used for greater good in society. 
+                  Hospitals, doctors, and others in the medical field may be 
+                  able to use this information to better prevent foodborne 
+                  diseases. "), br(),
               tags$b(h4("The main questions that we wanted to look at were:")), 
               tags$em(h4("1. Are there any trends over time of illnesses and hospitalizations based by State?")), 
               tags$em(h4("2. What are the most common foodborne diseases and are there any trends over time in types of diseases?")),
@@ -26,65 +31,30 @@ my.ui <- fluidPage(
               br(), h4("	Here is the link to our dataset: "), 
               tags$a(href="https://www.kaggle.com/cdc/foodborne-diseases/data", 
                                                                "Food Borne Disease Outbreak Illness in USA - 1998-2005"), 
-              br(), h4("Click through the navigation bar to see our information!")
-              
+              br(), h4("Click through the navigation bar to see our information!"),
+              img(src='http://www.eufic.org/images/uploads/food-safety/landing-food-safety.jpg',
+                  align = "center", width = "60%", height = "60%", inline = FALSE),
+              tags$em(p("Image used from www.eufic.org", size = "10px"))
         
      ),
              
    
     # Emma
-  tabPanel("Trends over Time",
+    tabPanel("Trends over Time",
              
-    sidebarLayout(
-      sidebarPanel(
-        sliderInput('emma.year', label='Year', min=1998, max=2015,
-                     value=(c(1998,2015)), sep = ""),
+      sidebarLayout(
+        sidebarPanel(
+          sliderInput('year', label='Year', min=1998, max=2015,
+                      value=(c(1998,2015)), sep = ""),
          # Make a list of checkboxes
-        selectInput('emma.type', label='Choose Illnesses or Hospitalizations', 
-                    choices = c('Illnesses', 'Hospitalizations'))
-      ),
-      mainPanel(
-        tabsetPanel(type = "tabs",
-          tabPanel("Map",
-            plotOutput('map'),
-            h4("How to Read This Map"),
-              p("This map shows the average number of illnesses and hospitalizations from foodborne diseases for each 
-              state. You can interact with the map by dragging the slider on the right to choose the year range. The map is coded
-              by color. The ",
-              strong("darker "), "the state means the state has a ", 
-              strong("high "), "average number of illnesses and hospitalizations
-                       , and the ", strong("lighter "), "the color of 
-                       the state, the ", strong("lower "), "number of Illnesses and
-                       hospitalization is for the state."),
-            h4("Analysis"),
-            p("Looking at the map, it is clear that California and Florida consistently had a large number of foodborne illnesses.
-              We were thinking that its because of the hot weather is easier for bacteria to survive in and because of the
-              large populations in both states. Illinois is also a state with a consistently large number of foodborne illnesses over the years. 
-              We were surprised by this as it didn't seem likely; however, Illinois has the 5th largest state population in the US, so it follows
-              our trend.")
-          ),
-          tabPanel("Trend",
-            plotOutput('trend'),
-            h4("How to Read This Graph"),
-            p("This graph shows the total number of illnesses and hospitalizations from foodborne diseases over the years. 
-              You can interact with the map by dragging the slider on the right to choose the year range."),
-            h4("Analysis"),
-            p("The trend of illnesses in USA has ", strong("decreased"), " over 
-               the years. We think it is probably because of the government awareness 
-               of these illnesses and stricter regulations for food preparation.
-               However, the number of hopitalized people 
-               remains at a ", strong("constant"), "level. We believe that this implies that people 
-               are hospitalized due to increasing levels of income that 
-               support people to spend more on health, and the increasing 
-               level of life expectancy reflects how people focus more on 
-               health. More people can afford to go
-               to the hospital when they get foodborne diseases due to health insurance plans.")
-          )
+         selectInput('type', label='Choose Illnesses or Hospitalization', 
+                     choices = c('Illnesses', 'Hospitalization'))
+        ),
+        mainPanel(
+          plotOutput('map_plot')
         )
       )
-    )
-  ),
-    
+    ),
 
     
   
@@ -131,27 +101,44 @@ my.ui <- fluidPage(
       
       # Gloriane
     
-    tabPanel("Most Common Foods & Locations",
+    tabPanel("Most Common Ingredients",
       sidebarLayout(
-  
-          sidebarPanel(
-            tabsetPanel(type = "tabs",
-              tabPanel("Filter",
-                sliderInput('yearinput', label="Year", value = 2015, min = 1998, max = 2015, sep = ""),
-                        
-                radioButtons("radio", label = "Get Table of # of Recorded Contamination in:",
-                                     choices = c("Food", "Location")),
-                tags$li(textOutput("analysis", container = div, inline = FALSE)),
-                tags$li(textOutput("analysis2", container = div, inline = FALSE))),
-              tabPanel("Analysis & Thoughts", tags$b(h3(textOutput("glo.head1"))), tags$body(textOutput("glo.analysis")),
-                      tags$a(href= "https://www.fsis.usda.gov/wps/portal/fsis/home", "Click here for more reference about Food Safety and Inspection Service")))
-           
-         ),
-         mainPanel(
-           plotOutput("food.plot"),
-           tableOutput("food.table")
-         )
-       )
+        sidebarPanel(
+          sliderInput('yearinput', label = "Year", value = 2015, min = 1998, max = 2015),
+          radioButtons("radio", label = "Get Tabel of # of Recorded Contamination in:", choices = c("Food", "Location")),
+          tags$blockquote(textOutput("analysis", container = div, inline = FALSE)),
+          tags$blockquote(textOutput("analysis2", container = div, inline = FALSE))
+        ),
+        mainPanel(
+          tabsetPanel(type = "tabs", 
+            tabPanel("Contaminated Food that causes Foodborne Illness and Location Site",
+                      plotOutput("food.plot"),
+                      verbatimTextOutput("plot_clickinfo"),
+                      tableOutput("food.table")),
+            tabPanel("Analysis & Thoughts",
+                     tags$b(h3(textOutput("glo.head1"))),
+                     tags$p(textOutput("glo.analysis")),
+                     tags$a(href = "https://www.fsis.usda.gov/wps/portal/fsis/home",
+                           "Click here for more reference about Food Safty and Inspection Service"),
+                     tags$b(h3(textOutput("glo.head2"))),
+                     img(src=' https://publichealthskc.files.wordpress.com/2016/12/restaurant-window-for-blog-banner.png',
+                         align = "center", width = "60%", height = "60%", inline = FALSE),
+                     tags$em(p("Image used from publichealthskc.files.wordpress.com", size = "10px")),
+                     tags$p(textOutput("glo.analysis2")),
+                     tags$li(textOutput("glo.analysis3")),
+                     tags$li(textOutput("glo.analysis4")),
+                     tags$li(textOutput("glo.analysis5")),
+                     tags$li(a(href = "https://www.cdc.gov/features/salmonellachicken/index.html",
+                            "Click here for more steps and advice how to prepare chicken")),
+                     tags$li(a(href = "http://www.eufic.org/en/food-safety/category/safe-food-handling",
+                               "Click here for more safe food handling ways")),
+                     img(src='http://www.eufic.org/images/uploads/food-safety/foodsafety_safefoodhandling_1611.png',
+                         align = "center", width = "60%", height = "60%", inline = FALSE),
+                     tags$em(p("Image used from www.eufic.org", size = "10px"))
+            )
+          )
+        )
+      ) 
     ),
       
       
