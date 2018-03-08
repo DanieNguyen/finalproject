@@ -21,12 +21,13 @@ my.data <- read.csv('outbreaks.csv', stringsAsFactors=FALSE, na.strings = c("", 
 
 # Create a server for app
 
-
-#Gloriane
 my.server <- function(input, output) {
+  
+  #Gloriane
+  
   data.set <- my.data["state" != "Multistate"]
   data.set <- data.set %>%
-    filter(Food != "" & Location != "")
+              filter(Food != "" & Location != "")
   
   getYear <- reactive({
     data.set <- data.set %>%
@@ -154,32 +155,12 @@ my.server <- function(input, output) {
   })
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   # Rahul
-  
-  
   
   SlideFilter <- reactive({
     fatality.data <- filter(my.data, Year == input$fatalityslider)
     return(fatality.data)
   })
-  
-  
   
   output$fatalitiesplot <- renderPlot(
     ggplot(data = SlideFilter(), aes(x=Month, y=Fatalities)) +
@@ -192,20 +173,12 @@ my.server <- function(input, output) {
             axis.title = element_text(size = 16))
   )
   
-  
-  
-  
-
-  
-  
-  
-  
-  
-  
   View(group_by(my.data, Year) %>%
          mutate(sum = sum(Illnesses)))
   
+  
   # Emma
+  
   my.data$State <- tolower(my.data$State)
   
   illnesses <- my.data %>%
@@ -274,32 +247,6 @@ my.server <- function(input, output) {
       theme(text = element_text(size = 16))
     return(p)
   })
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   
   # Daniel
