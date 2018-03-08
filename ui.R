@@ -8,13 +8,18 @@ my.ui <- fluidPage(
     # Introduction    
      
      tabPanel("Introduction", h1("Looking at Foodborne Diseases Over Time"), 
-              h4("Our group created this shiny application to analyze data about 
-                foodborne diseases in the United States. We decided to analyze 
-                this data set because we thought it was an interesting topic to 
-                look at and that it was something all of us hadn't really paid 
-                attention to before. The information in this application can be 
-                used for greater good in society. Hospitals, doctors, and others 
-                in the medical field may be able to use this information to better prevent foodborne diseases. "), br(),
+              h4("Foodborne illness is a serious and underreported public 
+                  health problem with high health and financial costs.” 
+                  The original data that we got summarized data of foodborne 
+                  disease from 1998 to 2015 for each states, and the data 
+                  shows the location, type of food, species and genotype 
+                  that causes foodborne disease. Our group analysis to clearly 
+                  show the trend over years over states, and the percentage of 
+                  the food, location that cause most of the disease. We wish 
+                  the information can be used for greater good in society. 
+                  Hospitals, doctors, and others in the medical field may be 
+                  able to use this information to better prevent foodborne 
+                  diseases. "), br(),
               tags$b(h4("The main questions that we wanted to look at were:")), 
               tags$em(h4("1. Are there any trends over time of illnesses and hospitalizations based by State?")), 
               tags$em(h4("2. What are the most common foodborne diseases and are there any trends over time in types of diseases?")),
