@@ -1,0 +1,12 @@
+name: finalproject
+title: finalproject
+username:
+account: danielnguyen
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 295590
+bundleId: 1258432
+url: https://danielnguyen.shinyapps.io/finalproject/
+when: 1520487257.82394
+asMultiple: FALSE
+asStatic: FALSE

@@ -39,7 +39,7 @@ my.ui <- fluidPage(
    ),
              
    
-  # Emma
+  # Emma panel
   
   tabPanel("Trends over Time",
              
@@ -94,7 +94,7 @@ my.ui <- fluidPage(
     ),
 
       
-    # Daniel
+    # Daniel panel
     
     tabPanel("Worst Diseases",
        sidebarLayout(
@@ -134,7 +134,7 @@ my.ui <- fluidPage(
     ),
       
       
-    # Gloriane
+    # Gloriane panel
     
     tabPanel("Most Common Foods and Locations",
        sidebarLayout(
@@ -177,7 +177,7 @@ my.ui <- fluidPage(
     ),
       
       
-    # Rahul
+    # Rahul panel
       
     tabPanel("Fatalities over Time",    
        sidebarLayout(

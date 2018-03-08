@@ -25,15 +25,21 @@ my.server <- function(input, output) {
    
   # Gloriane
   
+  # Organizing dataset
+  
   data.set <- my.data["state" != "Multistate"]
   data.set <- data.set %>%
               filter(Food != "" & Location != "")
+  
+  # Filtering years 
   
   getYear <- reactive({
     data.set <- data.set %>%
       filter(Year == input$yearinput ) # CHANGE "YEAR" 
     return(data.set)
   })
+  
+  # Getting food or location data
   
   getDataTable <- reactive({
     if(input$radio ==  "Food") {
@@ -45,6 +51,8 @@ my.server <- function(input, output) {
       food.list <- data.frame("Food" = unlist(strsplit(food.list$Food, ",")), stringsAsFactors = FALSE)
       food.list <- as.data.frame(lapply(food.list, trimws), stringsAsFactors = FALSE)
       
+      # Getting food list
+      
       food.list <- food.list %>%
         count(Food, sort = TRUE) %>%
         filter(Food != "Unspecified" & Food != "Other") %>%
@@ -53,6 +61,9 @@ my.server <- function(input, output) {
       food.list <- food.list[1:10, ]
       return(food.list)
     } else {
+      
+      # getting location list
+      
       location.list <- getYear() %>%
         select(Location)
       location.list <- data.frame("Location" = unlist(strsplit(location.list$Location, ";")), stringsAsFactors = FALSE)
@@ -66,6 +77,8 @@ my.server <- function(input, output) {
       return(location.list)
     }
   })
+  
+  # Rendering location/food plot
   
   output$food.plot <- renderPlot({
     table.list <- getDataTable()
@@ -87,12 +100,15 @@ my.server <- function(input, output) {
     return(p)
   })
   
+  # Getting food/location table
+  
   output$food.table <- renderTable({
     table.list <- getDataTable()
     colnames(table.list)[2] <- "# Recorded"
     return(table.list)
   })
   
+  # Analysis text
   output$analysis <- renderText({
     table <- getDataTable()
     if (input$radio == "Food") {
@@ -157,10 +173,14 @@ my.server <- function(input, output) {
   
   # Rahul
   
+  # Filtering fatalities
+  
   SlideFilter <- reactive({
     fatality.data <- filter(my.data, Year == input$fatalityslider)
     return(fatality.data)
   })
+  
+  # Creating fatality plot
   
   output$fatalitiesplot <- renderPlot(
     ggplot(data = SlideFilter(), aes(x=Month, y=Fatalities)) +
@@ -173,12 +193,9 @@ my.server <- function(input, output) {
             axis.title = element_text(size = 16))
   )
   
-  View(group_by(my.data, Year) %>%
-         mutate(sum = sum(Illnesses)))
-  
-  
   # Emma
   
+  # Filtering map data
   my.data$State <- tolower(my.data$State)
   
   illnesses <- my.data %>%
@@ -197,6 +214,8 @@ my.server <- function(input, output) {
   })
   
   state <- map_data("state")
+  
+  # Rendering map graph
   
   output$map <- renderPlot({
     map.data <- typeInput() %>%
@@ -220,6 +239,7 @@ my.server <- function(input, output) {
     return(p)
   })
   
+  # filtering table daa
   
   ill.trend <- my.data %>%
     group_by(Year) %>%
@@ -233,6 +253,8 @@ my.server <- function(input, output) {
     switch(input$emma.type,
            "Illnesses" = ill.trend, "Hospitalizations" = hosp.trend)
   })
+  
+  # rendering data table
   
   output$trend <- renderPlot({
     data.year <- trendInput() %>%
@@ -251,6 +273,7 @@ my.server <- function(input, output) {
   
   # Daniel
   
+  # Filtering out years, month data
   Mode <- function(x) {
     ux <- unique(x)
     ux[which.max(tabulate(match(x, ux)))]
@@ -266,10 +289,10 @@ my.server <- function(input, output) {
                  group_by(Month) %>%
                  mutate(Mode = Mode(Location), Sum = sum(Illnesses)) %>%
                  distinct(Month, .keep_all = TRUE)
-    View(sum.month)
     return(sum.month)
   })
   
+  # Filtering out years, species data
   table <- reactive({
     ten <-  filter(my.data, Year == input$daniel.year) %>%
                   group_by(Species) %>%
@@ -279,6 +302,8 @@ my.server <- function(input, output) {
                   distinct(Species, .keep_all = TRUE)
   })
   
+  
+  # Rendering worst disease graph
   
   output$plot <- renderPlot({
     graph <- ggplot(data = filtered(), aes(Month, Sum)) +
@@ -293,6 +318,8 @@ my.server <- function(input, output) {
               theme(text = element_text(size = 16), axis.text.x = element_text(size=12))
     return(graph)
   })
+  
+  # Rendering diseases plot
   
   output$plot2 <- renderPlot({
     if (input$sort == "10 Most Recorded Diseases") {
@@ -314,6 +341,8 @@ my.server <- function(input, output) {
               coord_flip()
     return(graph)
   })
+  
+  # Analysis text 
   
   output$message <- renderText({
     return(paste0("This bar graph is organized by year. Right now, the graph displays information from ", input$daniel.year, ". 
