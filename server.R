@@ -104,10 +104,10 @@ my.server <- function(input, output) {
   output$analysis2 <- renderText({
     table <- getDataTable()
   if (input$radio == "Food") {
-  text <-paste0("In ", input$yearinput[1], ", ", table$Food[table$n == max(table$n)], " was recorded most commonly with a number of ",
+  text <-paste0("In ", input$yearinput[1], ", ", table$Food[table$n == max(table$n)], " was recorded most with a number of ",
                table$n[table$n == max(table$n)], " records")
   } else {
-    text <-paste0("In ", input$yearinput[1], ", the ", table$Location[table$n == max(table$n)], " was recorded most commonly with a number of ",
+    text <-paste0("In ", input$yearinput[1], ", the ", table$Location[table$n == max(table$n)], " was recorded most with a number of ",
                  table$n[table$n == max(table$n)], " records")
   
   }
@@ -118,7 +118,7 @@ my.server <- function(input, output) {
   })
   
   output$glo.analysis <- renderText({
-    return("Chicken is the trending top food and ingredient that has been recorded for contamination (Other than fish in 2003).
+    return("Chicken is the trending top food and ingredient that has been recorded for foodborne illnesses (Other than fish in 2003).
             Food contamination has been most commonly occurring when prepared at restaurants. Since 1998,
             the number of occurrences at restaurants has greatly decreased,
             showing that food hygiene and safety are improving thanks to stricter implementation of laws and regulations.
@@ -130,9 +130,27 @@ food diseases outbreaks. However, Chicken has been consitently rising as a cause
     return("Click here for more reference about Food Safety and Inspection Service")
   })
   
+  output$glo.head2 <- renderText ({
+    return("How to Reduce the Risk of Food Contamination? (Chicken)")
+  })
   
+  output$glo.analysis2 <- renderText({
+    return("Although more contamination cases occurs from restaurants, second leading consistent location is within private home or residence
+           throughout the years. Regardless of location, there are measures that can help significantly reduce the risk of cross-contamination and food-borne illnesses.
+           Here are some steps you can do:")
+  })
   
+  output$glo.analysis3 <- renderText({
+    return("If you think the chicken you are served at a restaurant or anywhere else is not fully cooked, send it back for more cooking")
+  })
   
+  output$glo.analysis4 <- renderText({
+    return("Beware of the raw chicken juices that can spread in the kitchen and contaminate other foods, utensils, and countertops.(Never wash chicken raw)")
+  })
+  
+  output$glo.analysis5 <- renderText({
+    return("Never place cooked food or fresh produce on a plate, cutting board, or other surface that previously held raw chicken.")
+  })
   
   
   
