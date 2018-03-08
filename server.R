@@ -118,7 +118,7 @@ my.server <- function(input, output) {
   })
   
   output$glo.analysis <- renderText({
-    return("Chicken is the trending top food and ingredient that has been recorded for foodborne illnesses (Other than fish in 2003).
+    return("Chicken is the trending top food and ingredient that has been recorded for foodborne illnesses (Other than fish in 2012).
             Food contamination has been most commonly occurring when prepared at restaurants. Since 1998,
             the number of occurrences at restaurants has greatly decreased,
             showing that food hygiene and safety are improving thanks to stricter implementation of laws and regulations.
