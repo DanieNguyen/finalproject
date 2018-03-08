@@ -22,8 +22,8 @@ my.data <- read.csv('outbreaks.csv', stringsAsFactors=FALSE, na.strings = c("", 
 # Create a server for app
 
 my.server <- function(input, output) {
-  
-  #Gloriane
+   
+  # Gloriane
   
   data.set <- my.data["state" != "Multistate"]
   data.set <- data.set %>%
