@@ -169,24 +169,27 @@ food diseases outbreaks. However, Chicken has been consitently rising as a cause
   
   
   
+  SlideFilter <- reactive({
+    fatality.data <- filter(my.data, Year == input$fatalityslider)
+    return(fatality.data)
+  })
+  
+  
+  
+  output$fatalitiesplot <- renderPlot(
+    ggplot(data = SlideFilter(), aes(x=Month, y=Fatalities)) +
+      geom_bar(stat = "identity", aes(fill=Month)) +
+      scale_fill_brewer(palette = "Set3") +
+      ggtitle(paste("Fatalities by Month in" , input$fatalityslider)) +
+      theme(plot.title = element_text(size = 25, face = "bold"),
+            axis.text = element_text(size=12),
+            axis.title = element_text(size = 16))
+  )
   
   
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   
   
   

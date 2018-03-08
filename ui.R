@@ -19,7 +19,7 @@ my.ui <- fluidPage(
               tags$em(h4("1. Are there any trends over time of illnesses and hospitalizations based by State?")), 
               tags$em(h4("2. What are the most common foodborne diseases and are there any trends over time in types of diseases?")),
               tags$em(h4("3 .What are the common foods that cause foodborne diseases?")),
-              tags$em(h4("4. How has the average number of hospitalizations from foodborne diseases changed over the years?")),
+              tags$em(h4("4. How has the number of fatalities from foodborne diseases changed over the years?")),
               br(),
               h4("	We felt that these questions would help identify common symptoms, triggers, and 
                      diseases that people in the medical field can pay attention to and hopefully prevent. "),
@@ -144,21 +144,44 @@ my.ui <- fluidPage(
       
       
       
-      tabPanel("Advancement in Disease Treatments",    
-        sidebarLayout(
-          sidebarPanel(
-            selectizeInput(
-              'id', label="Year", choices=NULL, multiple=F, selected="X2015",
-              options = list(create = TRUE,placeholder = 'Choose the year')
-            ),
-            # Make a list of checkboxes
-            radioButtons("radio", label = h3("Radio buttons"),
-                         choices = list("Choice 1" = 1, "Choice 2" = 2)
-            )
-          ),
-          mainPanel( )
-        )
-      )
+  tabPanel("Fatalities over Time",    
+           sidebarLayout(
+             sidebarPanel(
+               sliderInput(
+                 'fatalityslider', label = "Year", min = 1998,max = 2015, value = 2015, step = 1,sep=""
+               )
+             ),
+             mainPanel(
+               tabsetPanel(
+                 tabPanel("Plot", plotOutput("fatalitiesplot"), 
+                          h4("How to use this Graph"), 
+                          em(),
+                          p("This graph shows the fatalities per month by foodborne illness for a specific year 
+                            between 1998 and 2015. With the slider at the right you can 
+                            control which year the bar graph is displaying. The larger the 
+                            bar in a certain month the more fatalities there were in that month relative to the other
+                            months in the year.")), 
+                 tabPanel("Data Analysis",
+                          h2("What does this mean?"), 
+                          em(), 
+                          p("When we look at the data for fatalities we can see a few interesting things.
+                            One is that for many months there are no fatalities so we can know
+                            that fatalities are not as ubiquitous as one may think. With food safety regulations
+                            we can see that they are effective in keeping the fatalities generally low. Also, when there is a spike
+                            it seems to occur in different months throughout the year.
+                            This can tell us that there is no strong correlation between the month and the fatalities
+                            which occured. "), 
+                          em(),
+                          p("Between 1998 and 2015 although fatalities were relatively low,
+                             they did not decrease significantly over this time. We can see in 
+                            particular in 2011 that there was a large spike in fatalities in July. 
+                            This can tell us that even after all this time there are still foodborne illnesses
+                            that are still a serious concern for all of us.")
+                          )
+               )
+             )
+           )
+    )
   
 
   )
