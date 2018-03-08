@@ -10,12 +10,12 @@ my.ui <- fluidPage(
     tabPanel("Introduction", h1("Looking at Foodborne Diseases Over Time"), 
              h4("Foodborne illness is a serious and underreported public 
                 health problem with high health and financial costs.
-                The original data that we got summarized data of foodborne 
-                disease from 1998 to 2015 for each states, and the data 
+                The original dataset that we used summarized data of foodborne 
+                disease from 1998 to 2015 for each state, and the data 
                 shows the location, type of food, species and genotype 
-                that causes foodborne disease. Our group analysis to clearly 
-                show the trend over years over states, and the percentage of 
-                the food, location that cause most of the disease. We wish 
+                that causes foodborne disease. Our group analysis is to clearly 
+                show the trends over the years and by state for food diseases and the percentage of 
+                the foods, locations that cause most of the diseases. We wish 
                 the information can be used for greater good in society. 
                 Hospitals, doctors, and others in the medical field may be 
                 able to use this information to better prevent foodborne 
@@ -135,28 +135,45 @@ my.ui <- fluidPage(
       
       # Gloriane
     
-    tabPanel("Most Common Foods & Locations",
-      sidebarLayout(
-  
-          sidebarPanel(
-            tabsetPanel(type = "tabs",
-              tabPanel("Filter",
-                sliderInput('yearinput', label="Year", value = 2015, min = 1998, max = 2015, sep = ""),
-                        
-                radioButtons("radio", label = "Get Table of # of Recorded Contamination in:",
-                                     choices = c("Food", "Location")),
-                tags$li(textOutput("analysis", container = div, inline = FALSE)),
-                tags$li(textOutput("analysis2", container = div, inline = FALSE))),
-              tabPanel("Analysis & Thoughts", tags$b(h3(textOutput("glo.head1"))), tags$body(textOutput("glo.analysis")),
-                      tags$a(href= "https://www.fsis.usda.gov/wps/portal/fsis/home", "Click here for more reference about Food Safety and Inspection Service")))
-           
-         ),
-         mainPanel(
-           plotOutput("food.plot"),
-           tableOutput("food.table")
-         )
-       )
-    ),
+  tabPanel("Most Common Foods and Locations",
+           sidebarLayout(
+             sidebarPanel(
+               sliderInput('yearinput', label = "Year", value = 2015, min = 1998, max = 2015, sep = ""),
+               radioButtons("radio", label = "Get Tabel of # of Recorded Contamination in:", choices = c("Food", "Location")),
+               tags$blockquote(textOutput("analysis", container = div, inline = FALSE)),
+               tags$blockquote(textOutput("analysis2", container = div, inline = FALSE))
+             ),
+             mainPanel(
+               tabsetPanel(type = "tabs", 
+                           tabPanel("Popular Foods and Locations for Foodborne Diseases",
+                                    plotOutput("food.plot"),
+                                    verbatimTextOutput("plot_clickinfo"),
+                                    tableOutput("food.table")),
+                           tabPanel("Analysis & Thoughts",
+                                    tags$b(h3(textOutput("glo.head1"))),
+                                    tags$p(textOutput("glo.analysis")),
+                                    tags$a(href = "https://www.fsis.usda.gov/wps/portal/fsis/home",
+                                           "Click here for more reference about Food Safty and Inspection Service"),
+                                    tags$b(h3(textOutput("glo.head2"))),
+                                    img(src=' https://publichealthskc.files.wordpress.com/2016/12/restaurant-window-for-blog-banner.png',
+                                        align = "center", width = "60%", height = "60%", inline = FALSE),
+                                    tags$em(p("Image used from publichealthskc.files.wordpress.com", size = "10px")),
+                                    tags$p(textOutput("glo.analysis2")),
+                                    tags$li(textOutput("glo.analysis3")),
+                                    tags$li(textOutput("glo.analysis4")),
+                                    tags$li(textOutput("glo.analysis5")),
+                                    tags$li(a(href = "https://www.cdc.gov/features/salmonellachicken/index.html",
+                                              "Click here for more steps and advice how to prepare chicken")),
+                                    tags$li(a(href = "http://www.eufic.org/en/food-safety/category/safe-food-handling",
+                                              "Click here for more safe food handling ways")),
+                                    img(src='http://www.eufic.org/images/uploads/food-safety/foodsafety_safefoodhandling_1611.png',
+                                        align = "center", width = "60%", height = "60%", inline = FALSE),
+                                    tags$em(p("Image used from www.eufic.org", size = "10px"))
+                           )
+               )
+             )
+           ) 
+  ),
       
       
       

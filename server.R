@@ -21,12 +21,13 @@ my.data <- read.csv('outbreaks.csv', stringsAsFactors=FALSE, na.strings = c("", 
 
 # Create a server for app
 
+
 #Gloriane
 my.server <- function(input, output) {
   data.set <- my.data["state" != "Multistate"]
-  data.set <- na.omit(data.set) %>%
+  data.set <- data.set %>%
     filter(Food != "" & Location != "")
-    
+  
   getYear <- reactive({
     data.set <- data.set %>%
       filter(Year == input$yearinput ) # CHANGE "YEAR" 
@@ -69,12 +70,12 @@ my.server <- function(input, output) {
     table.list <- getDataTable()
     p <- ""
     if(input$radio == "Food") {
-  
+      
       p <- ggplot(data = table.list) +
-         geom_bar(mapping = aes(x = Food, y = n, fill = Food), stat = "identity") +
+        geom_bar(mapping = aes(x = Food, y = n, fill = Food), stat = "identity") +
         labs(title= (paste("Top Contaminated Food In", input$yearinput)), y = "Recorded Occurences") +
         guides(fill = FALSE)
-   } else {
+    } else {
       
       p <- ggplot(data = table.list) +
         geom_bar(mapping = aes(x = Location, y = n, fill = Location), stat = "identity") +
@@ -86,9 +87,9 @@ my.server <- function(input, output) {
   })
   
   output$food.table <- renderTable({
-      table.list <- getDataTable()
-      colnames(table.list)[2] <- "# Recorded"
-      return(table.list)
+    table.list <- getDataTable()
+    colnames(table.list)[2] <- "# Recorded"
+    return(table.list)
   })
   
   output$analysis <- renderText({
@@ -100,34 +101,56 @@ my.server <- function(input, output) {
     }
   })
   
-
+  
   output$analysis2 <- renderText({
     table <- getDataTable()
-  if (input$radio == "Food") {
-  text <-paste0("In ", input$yearinput[1], ", ", table$Food[table$n == max(table$n)], " was recorded most commonly with a number of ",
-               table$n[table$n == max(table$n)], " records")
-  } else {
-    text <-paste0("In ", input$yearinput[1], ", the ", table$Location[table$n == max(table$n)], " was recorded most commonly with a number of ",
-                 table$n[table$n == max(table$n)], " records")
+    if (input$radio == "Food") {
+      text <-paste0("In ", input$yearinput[1], ", ", table$Food[table$n == max(table$n)], " was recorded most with a number of ",
+                    table$n[table$n == max(table$n)], " records")
+    } else {
+      text <-paste0("In ", input$yearinput[1], ", the ", table$Location[table$n == max(table$n)], " was recorded most with a number of ",
+                    table$n[table$n == max(table$n)], " records")
+      
+    }
+  })
   
-  }
-})
-
   output$glo.head1 <- renderText({
     return("What food has the most risk of being contaminated in what location?")
   })
   
   output$glo.analysis <- renderText({
-    return("Chicken is the trending top food and ingredient that has been recorded for contamination (Other than fish in 2003).
-            Food contamination has been most commonly occurring when prepared at restaurants. Since 1998,
-            the number of occurrences at restaurants has greatly decreased,
-            showing that food hygiene and safety are improving thanks to stricter implementation of laws and regulations.
-            We can thank the Food Safety and Inspection Service by the United States Department of Agriculture for the improvement in 
-food diseases outbreaks. However, Chicken has been consitently rising as a cause of foodborne diseases and must be monitored.")
+    return("Chicken is the trending top food and ingredient that has been recorded for foodborne illnesses (Other than fish in 2012).
+           Food contamination has been most commonly occurring when prepared at restaurants. Since 1998,
+           the number of occurrences at restaurants has greatly decreased,
+           showing that food hygiene and safety are improving thanks to stricter implementation of laws and regulations.
+           We can thank the Food Safety and Inspection Service by the United States Department of Agriculture for the improvement in 
+           food diseases outbreaks. However, Chicken has been consistently rising as a cause of foodborne diseases and must be monitored.")
   })
   
   output$glo.anaylsis2 <- renderText({ 
     return("Click here for more reference about Food Safety and Inspection Service")
+  })
+  
+  output$glo.head2 <- renderText ({
+    return("How to Reduce the Risk of Food Contamination? (Chicken)")
+  })
+  
+  output$glo.analysis2 <- renderText({
+    return("Although more contamination cases occurs from restaurants, the second leading consistent location is within private home or residence
+           throughout the years. Regardless of location, there are measures that can help significantly reduce the risk of cross-contamination and food-borne illnesses.
+           Here are some steps you can do:")
+  })
+  
+  output$glo.analysis3 <- renderText({
+    return("If you think the chicken you are served at a restaurant or anywhere else is not fully cooked, send it back for more cooking")
+  })
+  
+  output$glo.analysis4 <- renderText({
+    return("Beware of the raw chicken juices that can spread in the kitchen and contaminate other foods, utensils, and countertops.(Never wash chicken raw)")
+  })
+  
+  output$glo.analysis5 <- renderText({
+    return("Never place cooked food or fresh produce on a plate, cutting board, or other surface that previously held raw chicken.")
   })
   
   
@@ -163,6 +186,7 @@ food diseases outbreaks. However, Chicken has been consitently rising as a cause
       geom_bar(stat = "identity", aes(fill=Month)) +
       scale_fill_brewer(palette = "Set3") +
       ggtitle(paste("Fatalities by Month in" , input$fatalityslider)) +
+      guides(fill = FALSE) +
       theme(plot.title = element_text(size = 25, face = "bold"),
             axis.text = element_text(size=12),
             axis.title = element_text(size = 16))
